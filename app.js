@@ -1,6 +1,7 @@
 const express = require('express')
 const request = require('request')
 const https = require('https')
+require('dotenv').config()
 
 app = express()
 app.use(express.static("public"))
@@ -37,8 +38,10 @@ app.post('/', (req, res) => {
         method: 'POST',
         auth: process.env.MAILCHIMP_USERNAME + ':' + process.env.MAILCHIMP_API_KEY
     }
+
     const apiRequest = https.request(url, options, (apiResponse) => {
         apiResponse.on('data', (data) => {
+            console.log(apiResponse.statusCode)
             if(apiResponse.statusCode === 200){
                 res.sendFile(__dirname + '/success.html')
             }
